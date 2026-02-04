@@ -1,0 +1,205 @@
+{
+  "@@locale": "fr",
+  "appTitle": "QuadriPilot",
+  "configureWifi": "Configurer la Wi-Fi",
+  "availableDevices": "Appareils disponibles",
+  "accessDashboard": "Accéder à l'accueil",
+  "connectToDevice": "Se connecter à la carte",
+  "refresh": "Rafraîchir",
+  "connectingToDevice": "Connexion à la carte...",
+  "connectedSuccessfully": "Connexion réussie !",
+  "connectionFailed": "Échec de connexion",
+  "tryAgain": "Réessayer",
+  "home": "Accueil",
+  "incident": "Incident",
+  "alerts": "Alertes",
+  "raceRunning": "Course en cours",
+  "readyToStart": "Prêt à partir",
+  "gpsPointsRecorded": "Points GPS enregistrés : {count}",
+  "@gpsPointsRecorded": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "stopRace": "Arrêter la course",
+  "startRace": "Lancer la course",
+  "summary": "Résumé",
+  "boardConnectionOk": "Connexion à la carte : OK",
+  "trailerStatus": "État remorque : à surveiller",
+  "incidentTitle": "Remontée d'incident",
+  "title": "Titre",
+  "incidentType": "Type d'incident",
+  "location": "Lieu",
+  "description": "Description",
+  "send": "Envoyer",
+  "requiredField": "Champ requis",
+  "chooseType": "Veuillez choisir un type",
+  "incidentSent": "Incident envoyé (stub).",
+  "severity": "Gravité (0-10)",
+  "material": "Matériel",
+  "obstacle": "Obstacle sur la route",
+  "accident": "Accident",
+  "other": "Autre",
+  "notifications": "Alertes",
+  "noAlerts": "Aucune alerte",
+  "markAllRead": "Tout marquer comme lu",
+  "mapPoints": "Trace GPS",
+  "language": "Langue",
+  "noWifiNetworks": "Aucun réseau Wi-Fi trouvé",
+  "connected": "Connecté",
+  "notConnected": "Non connecté",
+  "connectDialogTitle": "Connexion Wi-Fi requise",
+  "connectDialogBody": "Connectez-vous au réseau Wi-Fi de la carte électronique pour continuer.",
+  "connectDialogFooter": "Assurez-vous que la carte électronique est allumée",
+  "goHome": "Aller à l'accueil",
+  "noGpsPoints": "Aucun point GPS pour le moment",
+  "lastGpsPoint": "Dernier point : {lat}, {lng}",
+  "@lastGpsPoint": {
+    "placeholders": {
+      "lat": {},
+      "lng": {}
+    }
+  },
+  "battery": "Batterie",
+  "lastSeenMinutes": "il y a {minutes} min",
+  "@lastSeenMinutes": {
+    "placeholders": {
+      "minutes": {}
+    }
+  },
+  "wifiLabel": "WiFi",
+  "gpsLabel": "GPS",
+  "raceStoppedDuration": "Course arrêtée. Durée : {duration}",
+  "raceStoppedWithLocation": "{message} · Dernière position {lat}, {lng}",
+  "@raceStoppedWithLocation": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      },
+      "lat": {
+        "type": "String"
+      },
+      "lng": {
+        "type": "String"
+      }
+    }
+  },
+  "@raceStoppedDuration": {
+    "placeholders": {
+      "duration": {}
+    }
+  },
+  "reportIncident": "Signaler un incident",
+  "selectType": "Sélectionner un type",
+  "severityLabel": "Gravité",
+  "severityBadge": "{label} ({value}/10)",
+  "@severityBadge": {
+    "placeholders": {
+      "label": {},
+      "value": {}
+    }
+  },
+  "severityLow": "Faible",
+  "severityModerate": "Modérée",
+  "severityHigh": "Élevé",
+  "severityCritical": "Critique",
+  "gpsPosition": "Position GPS",
+  "fetchingLocation": "Localisation en cours...",
+  "describeIncident": "Décrivez l'incident en détail...",
+  "sendReport": "Envoyer le rapport",
+  "sendingReport": "Envoi en cours...",
+  "sendError": "Erreur lors de l'envoi",
+  "sendDeferred": "Envoyé en différé",
+  "reportSentTitle": "Rapport envoyé",
+  "reportSentBody": "Votre incident a été transmis.",
+  "reportSentBodyOffline": "Pas de connexion Internet. Votre incident sera envoyé dès que possible.",
+  "reportDeferredBadge": "Envoyé en différé",
+  "syncOnline": "En ligne",
+  "syncOffline": "Hors ligne",
+  "syncPending": "{count} en attente",
+  "syncApiDown": "API indisponible",
+  "apiBaseUrlTitle": "Adresse API",
+  "apiBaseUrlHelp": "Vous pouvez entrer l'URL de base. Exemple : http://10.140.xxx.xxx:3001/api",
+  "apiBaseUrlHint": "http://10.144.198.125:3001/api",
+  "apiTest": "Tester l'API",
+  "apiTestOk": "API accessible",
+  "apiTestFailed": "API inaccessible",
+  "syncLastError": "Dernière erreur : {message}",
+  "@syncLastError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "save": "Enregistrer",
+  "cancel": "Annuler",
+  "@syncPending": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchType": "Rechercher un type",
+  "incidentCategoryTrailer": "Remorque (mécanique / structure)",
+  "incidentTrailerFlatTire": "Pneu crevé",
+  "incidentTrailerBrakeDefective": "Frein défectueux",
+  "incidentTrailerHitchDamaged": "Attelage endommagé",
+  "incidentTrailerChassis": "Structure / châssis",
+  "incidentTrailerUnstableLoad": "Charge instable / sangles",
+  "incidentTrailerBearingNoise": "Roulement / bruit anormal",
+  "incidentCategoryEnergy": "Énergie / électronique embarquée",
+  "incidentEnergyBatteryLow": "Batterie faible",
+  "incidentEnergyBatteryDead": "Batterie HS",
+  "incidentEnergyBeaconNoResponse": "Balise ne répond plus",
+  "incidentEnergyInconsistentData": "Données incohérentes (GPS/batterie)",
+  "incidentEnergyWifiDrop": "Coupure WiFi",
+  "incidentCategorySoftware": "Logiciel / application",
+  "incidentSoftwareAppBlocked": "Application bloquée",
+  "incidentSoftwareMissingData": "Données manquantes",
+  "incidentSoftwareRaceStartStop": "Course impossible à lancer/arrêter",
+  "incidentSoftwareSyncIssue": "Problème de synchronisation",
+  "incidentCategorySafety": "Sécurité / exploitation",
+  "incidentSafetyAccident": "Remorque accidentée",
+  "incidentSafetyImmediateRisk": "Risque sécurité immédiat",
+  "incidentSafetyStolen": "Remorque volée / déplacée",
+  "incidentSafetyObstacle": "Obstacle empêchant la livraison",
+  "incidentCategoryOther": "Autre",
+  "incidentOther": "Autre (à préciser)",
+  "alertLabel": "Alerte",
+  "warningLabel": "Attention",
+  "alertBodyCritical": "Seuil critique atteint",
+  "alertBodyWarning": "Prévoir maintenance.",
+  "readLabel": "Lu",
+  "relativeMinutes": "il y a {value} min",
+  "@relativeMinutes": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "relativeHours": "il y a {value} h",
+  "@relativeHours": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "relativeDays": "il y a {value} jours",
+  "@relativeDays": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "unreadCount": "{count} non lues",
+  "@unreadCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "filterAll": "Toutes",
+  "filterAlerts": "Alertes",
+  "filterWarnings": "Avertissements",
+  "filterRead": "Lues",
+  "todayLabel": "Aujourd'hui",
+  "yesterdayLabel": "Hier"
+}

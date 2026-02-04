@@ -1,0 +1,205 @@
+{
+  "@@locale": "en",
+  "appTitle": "QuadriPilot",
+  "configureWifi": "Configure Wi-Fi",
+  "availableDevices": "Available devices",
+  "accessDashboard": "Access dashboard",
+  "connectToDevice": "Connect to device",
+  "refresh": "Refresh",
+  "connectingToDevice": "Connecting to device...",
+  "connectedSuccessfully": "Connected successfully!",
+  "connectionFailed": "Connection failed",
+  "tryAgain": "Try again",
+  "home": "Home",
+  "incident": "Incident",
+  "alerts": "Alerts",
+  "raceRunning": "Race in progress",
+  "readyToStart": "Ready to start",
+  "gpsPointsRecorded": "GPS points recorded: {count}",
+  "@gpsPointsRecorded": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "stopRace": "Stop the race",
+  "startRace": "Start the race",
+  "summary": "Summary",
+  "boardConnectionOk": "Board connection: OK",
+  "trailerStatus": "Trailer status: check",
+  "incidentTitle": "Incident report",
+  "title": "Title",
+  "incidentType": "Incident type",
+  "location": "Location",
+  "description": "Description",
+  "send": "Send",
+  "requiredField": "Required field",
+  "chooseType": "Please choose a type",
+  "incidentSent": "Incident sent (stub).",
+  "severity": "Severity (0-10)",
+  "material": "Equipment",
+  "obstacle": "Obstacle on the road",
+  "accident": "Accident",
+  "other": "Other",
+  "notifications": "Alerts",
+  "noAlerts": "No alerts",
+  "markAllRead": "Mark all read",
+  "mapPoints": "GPS track",
+  "language": "Language",
+  "noWifiNetworks": "No Wi-Fi networks found",
+  "connected": "Connected",
+  "notConnected": "Not connected",
+  "connectDialogTitle": "Wi-Fi connection required",
+  "connectDialogBody": "Connect to the board Wi-Fi network to continue.",
+  "connectDialogFooter": "Make sure the board is powered on",
+  "goHome": "Go to home",
+  "noGpsPoints": "No GPS points yet",
+  "lastGpsPoint": "Last point: {lat}, {lng}",
+  "@lastGpsPoint": {
+    "placeholders": {
+      "lat": {},
+      "lng": {}
+    }
+  },
+  "battery": "Battery",
+  "lastSeenMinutes": "{minutes} min ago",
+  "@lastSeenMinutes": {
+    "placeholders": {
+      "minutes": {}
+    }
+  },
+  "wifiLabel": "WiFi",
+  "gpsLabel": "GPS",
+  "raceStoppedDuration": "Race stopped. Duration: {duration}",
+  "raceStoppedWithLocation": "{message} · Last location {lat}, {lng}",
+  "@raceStoppedWithLocation": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      },
+      "lat": {
+        "type": "String"
+      },
+      "lng": {
+        "type": "String"
+      }
+    }
+  },
+  "@raceStoppedDuration": {
+    "placeholders": {
+      "duration": {}
+    }
+  },
+  "reportIncident": "Report an incident",
+  "selectType": "Select a type",
+  "severityLabel": "Severity",
+  "severityBadge": "{label} ({value}/10)",
+  "@severityBadge": {
+    "placeholders": {
+      "label": {},
+      "value": {}
+    }
+  },
+  "severityLow": "Low",
+  "severityModerate": "Moderate",
+  "severityHigh": "High",
+  "severityCritical": "Critical",
+  "gpsPosition": "GPS position",
+  "fetchingLocation": "Fetching location...",
+  "describeIncident": "Describe the incident in detail...",
+  "sendReport": "Send report",
+  "sendingReport": "Sending...",
+  "sendError": "Send failed",
+  "sendDeferred": "Sent later",
+  "reportSentTitle": "Report sent",
+  "reportSentBody": "Your incident has been sent.",
+  "reportSentBodyOffline": "No Internet connection. Your report will be sent as soon as possible.",
+  "reportDeferredBadge": "Sent later",
+  "syncOnline": "Online",
+  "syncOffline": "Offline",
+  "syncPending": "{count} pending",
+  "syncApiDown": "API unavailable",
+  "apiBaseUrlTitle": "API address",
+  "apiBaseUrlHelp": "You can enter the base URL. Example: http://10.140.xxx.xxx:3001/api",
+  "apiBaseUrlHint": "http://10.144.198.125:3001/api",
+  "apiTest": "Test API",
+  "apiTestOk": "API reachable",
+  "apiTestFailed": "API unreachable",
+  "syncLastError": "Last error: {message}",
+  "@syncLastError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "save": "Save",
+  "cancel": "Cancel",
+  "@syncPending": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchType": "Search a type",
+  "incidentCategoryTrailer": "Trailer (mechanics / structure)",
+  "incidentTrailerFlatTire": "Flat tire",
+  "incidentTrailerBrakeDefective": "Defective brake",
+  "incidentTrailerHitchDamaged": "Damaged hitch",
+  "incidentTrailerChassis": "Structure / chassis",
+  "incidentTrailerUnstableLoad": "Unstable load / straps",
+  "incidentTrailerBearingNoise": "Bearing / abnormal noise",
+  "incidentCategoryEnergy": "Energy / onboard electronics",
+  "incidentEnergyBatteryLow": "Low battery",
+  "incidentEnergyBatteryDead": "Battery dead",
+  "incidentEnergyBeaconNoResponse": "Beacon not responding",
+  "incidentEnergyInconsistentData": "Inconsistent data (GPS/battery)",
+  "incidentEnergyWifiDrop": "WiFi TCP/IP drop",
+  "incidentCategorySoftware": "Software / application",
+  "incidentSoftwareAppBlocked": "App frozen",
+  "incidentSoftwareMissingData": "Missing data",
+  "incidentSoftwareRaceStartStop": "Race cannot start/stop",
+  "incidentSoftwareSyncIssue": "Synchronization issue",
+  "incidentCategorySafety": "Safety / operations",
+  "incidentSafetyAccident": "Trailer accident",
+  "incidentSafetyImmediateRisk": "Immediate safety risk",
+  "incidentSafetyStolen": "Trailer stolen / moved",
+  "incidentSafetyObstacle": "Obstacle preventing delivery",
+  "incidentCategoryOther": "Other",
+  "incidentOther": "Other (specify)",
+  "alertLabel": "Alert",
+  "warningLabel": "Warning",
+  "alertBodyCritical": "Critical threshold reached",
+  "alertBodyWarning": "Maintenance required.",
+  "readLabel": "Read",
+  "relativeMinutes": "{value} min ago",
+  "@relativeMinutes": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "relativeHours": "{value} h ago",
+  "@relativeHours": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "relativeDays": "{value} days ago",
+  "@relativeDays": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "unreadCount": "{count} unread",
+  "@unreadCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "filterAll": "All",
+  "filterAlerts": "Alerts",
+  "filterWarnings": "Warnings",
+  "filterRead": "Read",
+  "todayLabel": "Today",
+  "yesterdayLabel": "Yesterday"
+}
