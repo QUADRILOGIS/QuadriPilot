@@ -1,7 +1,7 @@
-# 🚚 QuadriPilot
+# 🚴 QuadriPilot
 
 <p align="center">
-  <strong>Application mobile pour les livreurs de remorques Quadrilogis</strong>
+  <strong>Application mobile pour les livreurs avec remorques Quadrilogis</strong>
 </p>
 
 <p align="center">
