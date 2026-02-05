@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:quadri_pilot/constants/app_config.dart';
 import 'package:quadri_pilot/data/services/api_config.service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum NotificationSeverity { warning, critical }
 
@@ -49,41 +50,30 @@ class NotificationsCubit extends Cubit<NotificationsState> {
   final ApiConfigService _config;
   final http.Client _client;
   Timer? _timer;
+  final Set<String> _readIds = {};
+  static const _readStorageKey = 'read_alert_ids';
 
   NotificationsCubit()
       : _config = ApiConfigService(),
         _client = http.Client(),
-        super(
-          NotificationsState(
-            items: [
-              NotificationItem(
-                id: '1',
-                part: 'Moteur',
-                severity: NotificationSeverity.critical,
-                body: 'Seuil critique atteint',
-                createdAt: DateTime.now().subtract(const Duration(minutes: 10)),
-              ),
-              NotificationItem(
-                id: '2',
-                part: 'Pneu Essieu A',
-                severity: NotificationSeverity.warning,
-                body: 'Prévoir maintenance.',
-                createdAt: DateTime.now().subtract(const Duration(hours: 1)),
-              ),
-              NotificationItem(
-                id: '3',
-                part: 'Plaquettes de frein',
-                severity: NotificationSeverity.critical,
-                body: 'Seuil critique atteint',
-                createdAt: DateTime.now().subtract(const Duration(days: 2, hours: 3)),
-              ),
-            ],
-          ),
-        );
+        super(const NotificationsState(items: []));
 
   void start() {
-    _fetchAlerts();
+    _loadReadIds().then((_) => _fetchAlerts());
     _timer ??= Timer.periodic(const Duration(seconds: 20), (_) => _fetchAlerts());
+  }
+
+  Future<void> _loadReadIds() async {
+    final prefs = await SharedPreferences.getInstance();
+    final stored = prefs.getStringList(_readStorageKey) ?? [];
+    _readIds
+      ..clear()
+      ..addAll(stored);
+  }
+
+  Future<void> _saveReadIds() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_readStorageKey, _readIds.toList());
   }
 
   Future<void> _fetchAlerts() async {
@@ -95,9 +85,6 @@ class NotificationsCubit extends Cubit<NotificationsState> {
       if (response.statusCode < 200 || response.statusCode >= 300) return;
       final decoded = jsonDecode(response.body) as Map<String, dynamic>;
       final data = (decoded['data'] as List<dynamic>? ?? []);
-      final existingRead = {
-        for (final item in state.items) item.id: item.isRead,
-      };
       final items = data.map((raw) {
         final map = raw as Map<String, dynamic>;
         final id = map['id'].toString();
@@ -116,7 +103,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
           severity: severity,
           body: '',
           createdAt: createdAt,
-          isRead: existingRead[id] ?? false,
+          isRead: _readIds.contains(id),
         );
       }).whereType<NotificationItem>().toList();
 
@@ -128,6 +115,10 @@ class NotificationsCubit extends Cubit<NotificationsState> {
   }
 
   void markAllRead() {
+    for (final item in state.items) {
+      _readIds.add(item.id);
+    }
+    _saveReadIds();
     emit(
       NotificationsState(
         items: state.items.map((item) => item.copyWith(isRead: true)).toList(),
@@ -136,6 +127,8 @@ class NotificationsCubit extends Cubit<NotificationsState> {
   }
 
   void markRead(String id) {
+    _readIds.add(id);
+    _saveReadIds();
     emit(
       NotificationsState(
         items: state.items

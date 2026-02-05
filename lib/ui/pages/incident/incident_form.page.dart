@@ -8,10 +8,12 @@ import 'package:quadri_pilot/core/l10n/app_localizations.dart';
 import 'package:quadri_pilot/data/services/incident_api.service.dart';
 import 'package:quadri_pilot/data/services/incident_queue.service.dart';
 import 'package:quadri_pilot/data/models/sensors.model.dart';
+import 'package:quadri_pilot/data/services/api_config.service.dart';
 import 'package:quadri_pilot/logic/cubits/sensors.cubit.dart';
 import 'package:quadri_pilot/ui/widgets/app_title.widget.dart';
 import 'package:quadri_pilot/ui/widgets/language_menu_button.dart';
 import 'package:quadri_pilot/ui/widgets/sync_status_chip.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class IncidentFormPage extends StatefulWidget {
   const IncidentFormPage({super.key});
@@ -26,6 +28,7 @@ class _IncidentFormPageState extends State<IncidentFormPage> {
   final _searchController = TextEditingController();
   final _incidentApi = IncidentApiService();
   final _incidentQueue = IncidentQueueService();
+  final _config = ApiConfigService();
 
   String? _selectedType;
   String? _selectedTypeValue;
@@ -41,6 +44,7 @@ class _IncidentFormPageState extends State<IncidentFormPage> {
   DateTime? _lastCardGpsAt;
   StreamSubscription? _gpsSubscription;
   Timer? _phoneGpsTimer;
+  String _managerPhone = '';
 
   @override
   void initState() {
@@ -48,6 +52,7 @@ class _IncidentFormPageState extends State<IncidentFormPage> {
     _fillCurrentLocation();
     _listenCardGps();
     _startPhoneGpsTimer();
+    _loadManagerPhone();
   }
 
   @override
@@ -57,6 +62,15 @@ class _IncidentFormPageState extends State<IncidentFormPage> {
     _gpsSubscription?.cancel();
     _phoneGpsTimer?.cancel();
     super.dispose();
+  }
+
+  Future<void> _loadManagerPhone() async {
+    final phone = await _config.getManagerPhone();
+    if (mounted) {
+      setState(() => _managerPhone = phone);
+    } else {
+      _managerPhone = phone;
+    }
   }
 
   Future<void> _fillCurrentLocation() async {
@@ -157,6 +171,11 @@ class _IncidentFormPageState extends State<IncidentFormPage> {
     if (!mounted) return;
     setState(() {
       _isSending = false;
+      _selectedType = null;
+      _selectedTypeValue = null;
+      _typeError = false;
+      _severity = 5;
+      _descriptionController.clear();
       _showSuccess = true;
     });
     await Future.delayed(const Duration(seconds: 2));
@@ -383,7 +402,12 @@ class _IncidentFormPageState extends State<IncidentFormPage> {
             Form(
               key: _formKey,
               child: ListView(
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.fromLTRB(
+                  20,
+                  20,
+                  20,
+                  20 + MediaQuery.of(context).viewInsets.bottom,
+                ),
                 children: [
                   const Align(
                     alignment: Alignment.centerRight,
@@ -610,6 +634,71 @@ class _IncidentFormPageState extends State<IncidentFormPage> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.managerContact,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surfaceContainerLowest,
+                      borderRadius: BorderRadius.circular(14),
+                      border:
+                          Border.all(color: theme.colorScheme.outlineVariant),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.phone,
+                                color: theme.colorScheme.primary, size: 20),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                _managerPhone.isEmpty
+                                    ? l10n.managerPhonePlaceholder
+                                    : _managerPhone,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: _managerPhone.isEmpty
+                                      ? theme.colorScheme.onSurfaceVariant
+                                      : theme.colorScheme.onSurface,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: _editManagerPhone,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed:
+                                _managerPhone.isEmpty ? null : _callManager,
+                            icon: const Icon(Icons.call, size: 18),
+                            label: Text(l10n.callManager),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: theme.colorScheme.primary,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 12),
                 ],
               ),
@@ -637,6 +726,52 @@ class _IncidentFormPageState extends State<IncidentFormPage> {
     if (_severity >= 6) return const Color(0xFFF59E0B);
     if (_severity >= 3) return const Color(0xFFFB923C);
     return const Color(0xFF3DB547);
+  }
+
+  Future<void> _editManagerPhone() async {
+    final controller = TextEditingController(text: _managerPhone);
+    final l10n = AppLocalizations.of(context);
+    await showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.editManagerPhone),
+          content: TextField(
+            controller: controller,
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+              hintText: l10n.managerPhonePlaceholder,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final value = controller.text.trim();
+                await _config.setManagerPhone(value);
+                if (mounted) {
+                  setState(() => _managerPhone = value);
+                }
+                if (context.mounted) Navigator.pop(context);
+              },
+              child: Text(l10n.save),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _callManager() async {
+    if (_managerPhone.isEmpty) return;
+    final uri = Uri(scheme: 'tel', path: _managerPhone);
+    await launchUrl(uri);
   }
 }
 

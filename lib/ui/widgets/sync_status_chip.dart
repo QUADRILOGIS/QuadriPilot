@@ -97,43 +97,48 @@ class SyncStatusChip extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           title: Text(l10n.apiBaseUrlTitle),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                l10n.apiBaseUrlHelp,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                  hintText: l10n.apiBaseUrlHint,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+          content: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  l10n.apiBaseUrlHelp,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: BlocBuilder<ApiSyncCubit, ApiSyncState>(
-                  builder: (context, state) {
-                    if (state.lastError == null) {
-                      return const SizedBox.shrink();
-                    }
-                    return Text(
-                      l10n.syncLastError(state.lastError!),
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.error,
-                      ),
-                    );
-                  },
+                const SizedBox(height: 12),
+                TextField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                    hintText: l10n.apiBaseUrlHint,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: BlocBuilder<ApiSyncCubit, ApiSyncState>(
+                    builder: (context, state) {
+                      if (state.lastError == null) {
+                        return const SizedBox.shrink();
+                      }
+                      return Text(
+                        l10n.syncLastError(state.lastError!),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.error,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
           actions: [
             TextButton(

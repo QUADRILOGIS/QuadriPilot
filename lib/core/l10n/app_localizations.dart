@@ -197,13 +197,13 @@ abstract class AppLocalizations {
   /// No description provided for @stopRace.
   ///
   /// In en, this message translates to:
-  /// **'Stop the race'**
+  /// **'Stop delivery'**
   String get stopRace;
 
   /// No description provided for @startRace.
   ///
   /// In en, this message translates to:
-  /// **'Start the race'**
+  /// **'Start delivery'**
   String get startRace;
 
   /// No description provided for @summary.
@@ -494,6 +494,30 @@ abstract class AppLocalizations {
   /// **'Describe the incident in detail...'**
   String get describeIncident;
 
+  /// No description provided for @managerContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Fleet manager'**
+  String get managerContact;
+
+  /// No description provided for @managerPhonePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a phone number'**
+  String get managerPhonePlaceholder;
+
+  /// No description provided for @callManager.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get callManager;
+
+  /// No description provided for @editManagerPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit phone'**
+  String get editManagerPhone;
+
   /// No description provided for @sendReport.
   ///
   /// In en, this message translates to:
@@ -575,14 +599,20 @@ abstract class AppLocalizations {
   /// No description provided for @apiBaseUrlHelp.
   ///
   /// In en, this message translates to:
-  /// **'You can enter the base URL. Example: http://10.140.xxx.xxx:3001/api'**
+  /// **'Enter the API base URL (or end with /health).'**
   String get apiBaseUrlHelp;
 
   /// No description provided for @apiBaseUrlHint.
   ///
   /// In en, this message translates to:
-  /// **'http://10.144.198.125:3001/api'**
+  /// **'API URL'**
   String get apiBaseUrlHint;
+
+  /// No description provided for @apiMissingEnv.
+  ///
+  /// In en, this message translates to:
+  /// **'API_BASE_URL missing. Add it to the .env file.'**
+  String get apiMissingEnv;
 
   /// No description provided for @apiTest.
   ///

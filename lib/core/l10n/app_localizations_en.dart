@@ -59,10 +59,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get stopRace => 'Stop the race';
+  String get stopRace => 'Stop delivery';
 
   @override
-  String get startRace => 'Start the race';
+  String get startRace => 'Start delivery';
 
   @override
   String get summary => 'Summary';
@@ -220,6 +220,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get describeIncident => 'Describe the incident in detail...';
 
   @override
+  String get managerContact => 'Fleet manager';
+
+  @override
+  String get managerPhonePlaceholder => 'Add a phone number';
+
+  @override
+  String get callManager => 'Call';
+
+  @override
+  String get editManagerPhone => 'Edit phone';
+
+  @override
   String get sendReport => 'Send report';
 
   @override
@@ -262,11 +274,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get apiBaseUrlTitle => 'API address';
 
   @override
-  String get apiBaseUrlHelp =>
-      'You can enter the base URL. Example: http://10.140.xxx.xxx:3001/api';
+  String get apiBaseUrlHelp => 'Enter the API base URL (or end with /health).';
 
   @override
-  String get apiBaseUrlHint => 'http://10.144.198.125:3001/api';
+  String get apiBaseUrlHint => 'API URL';
+
+  @override
+  String get apiMissingEnv => 'API_BASE_URL missing. Add it to the .env file.';
 
   @override
   String get apiTest => 'Test API';

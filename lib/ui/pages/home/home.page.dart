@@ -1,13 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:quadri_pilot/core/l10n/app_localizations.dart';
+import 'package:quadri_pilot/logic/cubits/wifi_scan.cubit.dart';
+import 'package:quadri_pilot/data/models/wifi_network.model.dart';
 import 'package:quadri_pilot/logic/cubits/race.cubit.dart';
 import 'package:quadri_pilot/ui/widgets/app_title.widget.dart';
 import 'package:quadri_pilot/ui/widgets/language_menu_button.dart';
 import 'package:quadri_pilot/ui/widgets/sync_status_chip.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
+  bool _gpsAllowed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _refreshGpsStatus();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _refreshGpsStatus();
+    }
+  }
+
+  Future<void> _refreshGpsStatus() async {
+    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    final permission = await Geolocator.checkPermission();
+    final allowed = serviceEnabled &&
+        (permission == LocationPermission.always ||
+            permission == LocationPermission.whileInUse);
+    if (mounted) {
+      setState(() => _gpsAllowed = allowed);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +56,7 @@ class HomePage extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: AppTitle(title: l10n.appTitle),
         actions: const [LanguageMenuButton()],
@@ -131,10 +173,16 @@ class HomePage extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: _StatusChip(
-                      icon: Icons.wifi,
-                      label: l10n.wifiLabel,
-                      active: true,
+                    child: BlocBuilder<WiFiScanCubit, List<WiFiNetwork>>(
+                      builder: (context, _) {
+                        final connected =
+                            context.read<WiFiScanCubit>().isConnected;
+                        return _StatusChip(
+                          icon: Icons.wifi,
+                          label: l10n.wifiLabel,
+                          active: connected,
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -142,7 +190,7 @@ class HomePage extends StatelessWidget {
                     child: _StatusChip(
                       icon: Icons.location_on,
                       label: l10n.gpsLabel,
-                      active: true,
+                      active: _gpsAllowed,
                     ),
                   ),
                 ],
@@ -275,7 +323,7 @@ class _StatusChip extends StatelessWidget {
             width: 10,
             height: 10,
             decoration: BoxDecoration(
-              color: active ? theme.colorScheme.primary : Colors.grey,
+              color: active ? theme.colorScheme.primary : theme.colorScheme.error,
               shape: BoxShape.circle,
             ),
           ),

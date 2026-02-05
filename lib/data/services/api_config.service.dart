@@ -1,9 +1,12 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:quadri_pilot/constants/app_config.dart';
 
 class ApiConfigService {
   static const String _storageKey = 'api_base_url';
   static const String _tokenKey = 'api_token';
-  static const String defaultBaseUrl = 'http://10.144.198.125:3001/api';
+  static const String _managerPhoneKey = 'manager_phone';
+  static final String defaultBaseUrl = AppConfig.apiBaseUrl;
+  static const String defaultManagerPhone = '0600000000';
 
   Future<String> getBaseUrl() async {
     final prefs = await SharedPreferences.getInstance();
@@ -27,6 +30,16 @@ class ApiConfigService {
   Future<void> setToken(String value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_tokenKey, value.trim());
+  }
+
+  Future<String> getManagerPhone() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_managerPhoneKey) ?? defaultManagerPhone;
+  }
+
+  Future<void> setManagerPhone(String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_managerPhoneKey, value.trim());
   }
 
   Future<String> getHealthUrl() async {
