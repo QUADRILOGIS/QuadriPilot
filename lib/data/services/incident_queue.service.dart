@@ -6,6 +6,11 @@ import 'package:quadri_pilot/data/services/incident_api.service.dart';
 class IncidentQueueService {
   static const _storageKey = 'pending_incidents_queue';
 
+  Future<int> count() async {
+    final prefs = await SharedPreferences.getInstance();
+    return (prefs.getStringList(_storageKey) ?? []).length;
+  }
+
   Future<void> enqueue(IncidentPayload payload) async {
     final prefs = await SharedPreferences.getInstance();
     final existing = prefs.getStringList(_storageKey) ?? [];

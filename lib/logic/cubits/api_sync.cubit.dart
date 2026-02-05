@@ -12,6 +12,8 @@ class ApiSyncState {
   final bool hasInternet;
   final bool apiReachable;
   final int pendingCount;
+  final int pendingIncidents;
+  final int pendingGps;
   final bool isSyncing;
   final String? lastError;
 
@@ -19,6 +21,8 @@ class ApiSyncState {
     required this.hasInternet,
     required this.apiReachable,
     required this.pendingCount,
+    required this.pendingIncidents,
+    required this.pendingGps,
     required this.isSyncing,
     this.lastError,
   });
@@ -27,6 +31,8 @@ class ApiSyncState {
     bool? hasInternet,
     bool? apiReachable,
     int? pendingCount,
+    int? pendingIncidents,
+    int? pendingGps,
     bool? isSyncing,
     String? lastError,
   }) {
@@ -34,6 +40,8 @@ class ApiSyncState {
       hasInternet: hasInternet ?? this.hasInternet,
       apiReachable: apiReachable ?? this.apiReachable,
       pendingCount: pendingCount ?? this.pendingCount,
+      pendingIncidents: pendingIncidents ?? this.pendingIncidents,
+      pendingGps: pendingGps ?? this.pendingGps,
       isSyncing: isSyncing ?? this.isSyncing,
       lastError: lastError ?? this.lastError,
     );
@@ -66,6 +74,8 @@ class ApiSyncCubit extends Cubit<ApiSyncState> {
           hasInternet: false,
           apiReachable: false,
           pendingCount: 0,
+          pendingIncidents: 0,
+          pendingGps: 0,
           isSyncing: false,
           lastError: null,
         ));
@@ -80,9 +90,13 @@ class ApiSyncCubit extends Cubit<ApiSyncState> {
   }
 
   Future<void> _tick() async {
-    final pendingIncidents = await _queue.loadAll();
-    final pendingGps = await _gpsQueue.loadAll();
-    emit(state.copyWith(pendingCount: pendingIncidents.length + pendingGps.length));
+    final pendingIncidents = await _queue.count();
+    final pendingGps = await _gpsQueue.count();
+    emit(state.copyWith(
+      pendingCount: pendingIncidents + pendingGps,
+      pendingIncidents: pendingIncidents,
+      pendingGps: pendingGps,
+    ));
     final internet = await _pingInternet();
     final apiOk = internet ? await _pingApi() : false;
     emit(state.copyWith(
@@ -90,7 +104,7 @@ class ApiSyncCubit extends Cubit<ApiSyncState> {
       apiReachable: apiOk,
       lastError: apiOk ? null : state.lastError,
     ));
-    if (apiOk && (pendingIncidents.isNotEmpty || pendingGps.isNotEmpty)) {
+    if (apiOk && (pendingIncidents > 0 || pendingGps > 0)) {
       emit(state.copyWith(isSyncing: true));
       try {
         await _queue.flush(_api);
@@ -99,10 +113,12 @@ class ApiSyncCubit extends Cubit<ApiSyncState> {
       } catch (error) {
         emit(state.copyWith(lastError: error.toString()));
       }
-      final remainingIncidents = await _queue.loadAll();
-      final remainingGps = await _gpsQueue.loadAll();
+      final remainingIncidents = await _queue.count();
+      final remainingGps = await _gpsQueue.count();
       emit(state.copyWith(
-        pendingCount: remainingIncidents.length + remainingGps.length,
+        pendingCount: remainingIncidents + remainingGps,
+        pendingIncidents: remainingIncidents,
+        pendingGps: remainingGps,
         isSyncing: false,
       ));
     }

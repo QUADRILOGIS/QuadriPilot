@@ -8,6 +8,9 @@ import 'package:quadri_pilot/logic/cubits/race.cubit.dart';
 import 'package:quadri_pilot/ui/widgets/app_title.widget.dart';
 import 'package:quadri_pilot/ui/widgets/language_menu_button.dart';
 import 'package:quadri_pilot/ui/widgets/sync_status_chip.dart';
+import 'package:quadri_pilot/logic/cubits/connection.cubit.dart' as tcp;
+import 'package:quadri_pilot/data/models/connection_state.model.dart' as conn_state;
+import 'package:quadri_pilot/ui/widgets/wifi_connect_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -207,6 +210,19 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                           if (isActive) {
                             context.read<RaceCubit>().stop();
                           } else {
+                            final connectionState =
+                                context.read<tcp.ConnectionCubit>().state;
+                            final isConnected = connectionState.status ==
+                                conn_state.ConnectionStatus.connected;
+                            if (!isConnected) {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) =>
+                                    const WifiConnectDialog(),
+                              );
+                              return;
+                            }
                             context.read<RaceCubit>().start();
                           }
                         },

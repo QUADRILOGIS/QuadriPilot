@@ -5,6 +5,20 @@ Il explique comment **installer l’application** sur un téléphone Android et 
 
 ---
 
+## Table des matières
+- [Équipe d'étudiants pour Quadrilogis](#équipe-détudiants-pour-quadrilogis)
+- [Ce qu’il vous faut (très simple)](#ce-quil-vous-faut-très-simple)
+- [Étape 1 — Démarrer l’API (QuadriCore)](#étape-1--démarrer-lapi-quadricore)
+- [Étape 2 — Préparer l’adresse de l’API](#étape-2--préparer-ladresse-de-lapi)
+- [Étape 3 — Installer l’application sur Android](#étape-3--installer-lapplication-sur-android)
+- [Étape 4 — Utiliser l’application](#étape-4--utiliser-lapplication)
+- [Problèmes fréquents](#problèmes-fréquents)
+- [Explication des écrans](#explication-des-écrans)
+- [Pour les développeurs](#pour-les-développeurs)
+- [Aide](#aide)
+
+---
+
 ## Équipe d'étudiants pour Quadrilogis
 - Baptiste BAYCHE
 - Pacôme CAILLETEAU
@@ -46,6 +60,44 @@ API_BASE_URL=http://IP_DU_PC:3001/api
 
 **Important :**  
 Le téléphone et l’ordinateur doivent être sur **le même Wi‑Fi**.
+
+### Trouver l’adresse IP LAN de votre PC (très simple)
+Vous devez trouver l’adresse IP **locale** de votre ordinateur (pas l’adresse Internet).
+
+#### Windows
+1. Ouvrir **Invite de commandes**
+2. Taper :
+   ```
+   ipconfig
+   ```
+3. Chercher “**Adresse IPv4**”
+
+#### macOS
+1. Ouvrir **Terminal**
+2. Taper :
+   ```
+   ipconfig getifaddr en0
+   ```
+   (ou en1 si en0 ne marche pas)
+
+#### Linux
+1. Ouvrir **Terminal**
+2. Taper :
+   ```
+   ip a
+   ```
+3. Chercher la ligne “**inet**” de votre carte Wi‑Fi
+
+### À quoi ressemble une IP LAN ?
+Exemples classiques :
+- `192.168.1.42`
+- `192.168.0.15`
+- `10.0.0.12`
+
+L’URL complète à mettre dans `.env`, par exemple :
+```
+API_BASE_URL=http://192.168.1.42:3001/api
+```
 
 ---
 
@@ -111,6 +163,32 @@ adb install -r build/app/outputs/flutter-apk/app-debug.apk
 
 ### Tous les écrans
 - Changement d'adresse IP pour la connexion à l'API si besoin (clic sur la pastille de connexion Internet en haut)
+
+---
+
+## Pour les développeurs
+Ces commandes sont pour **continuer le développement** (à faire dans le dossier du projet).
+
+1. Installer les dépendances :
+   ```
+   flutter pub get
+   ```
+2. Générer les traductions (si besoin) :
+   ```
+   flutter gen-l10n
+   ```
+3. Lancer l’app en mode développement :
+   ```
+   flutter run
+   ```
+4. Analyser le code :
+   ```
+   flutter analyze
+   ```
+5. Générer un APK de test :
+   ```
+   flutter build apk --debug
+   ```
 
 ---
 

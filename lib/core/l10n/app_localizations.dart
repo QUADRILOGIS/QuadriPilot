@@ -584,6 +584,24 @@ abstract class AppLocalizations {
   /// **'{count} pending'**
   String syncPending(int count);
 
+  /// No description provided for @pendingIncidents.
+  ///
+  /// In en, this message translates to:
+  /// **'Incidents'**
+  String get pendingIncidents;
+
+  /// No description provided for @pendingGps.
+  ///
+  /// In en, this message translates to:
+  /// **'GPS'**
+  String get pendingGps;
+
+  /// No description provided for @syncPendingDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Incidents: {incidents}, GPS: {gps}'**
+  String syncPendingDetails(int incidents, int gps);
+
   /// No description provided for @syncApiDown.
   ///
   /// In en, this message translates to:

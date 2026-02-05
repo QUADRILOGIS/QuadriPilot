@@ -121,6 +121,19 @@
   "syncOnline": "En ligne",
   "syncOffline": "Hors ligne",
   "syncPending": "{count} en attente",
+  "pendingIncidents": "Incidents",
+  "pendingGps": "GPS",
+  "syncPendingDetails": "Incidents : {incidents}, GPS : {gps}",
+  "@syncPendingDetails": {
+    "placeholders": {
+      "incidents": {
+        "type": "int"
+      },
+      "gps": {
+        "type": "int"
+      }
+    }
+  },
   "syncApiDown": "API indisponible",
   "apiBaseUrlTitle": "Adresse API",
   "apiBaseUrlHelp": "Entrez l'URL de base de l'API (ou terminez par /health).",

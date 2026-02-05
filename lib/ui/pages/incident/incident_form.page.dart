@@ -185,14 +185,23 @@ class _IncidentFormPageState extends State<IncidentFormPage> {
 
   String _buildMessage() {
     final description = _descriptionController.text.trim();
-    if (description.isNotEmpty) {
-      return description;
-    }
     final label = _selectedType ?? 'Incident';
-    if (label.length >= 10) {
-      return label;
+    String message;
+    if (description.isNotEmpty) {
+      if (description.length >= 10) {
+        message = description;
+      } else {
+        message = '$label : $description';
+      }
+    } else if (label.length >= 10) {
+      message = label;
+    } else {
+      message = 'Incident: $label';
     }
-    return 'Incident: $label';
+    if (message.length > 1000) {
+      return message.substring(0, 1000);
+    }
+    return message;
   }
 
   List<_IncidentTypeItem> _buildIncidentTypes(AppLocalizations l10n) {

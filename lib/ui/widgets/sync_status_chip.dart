@@ -15,7 +15,6 @@ class SyncStatusChip extends StatelessWidget {
     return BlocBuilder<ApiSyncCubit, ApiSyncState>(
       builder: (context, state) {
         final hasInternet = state.hasInternet;
-        final apiOk = state.apiReachable;
         final pending = state.pendingCount;
         final bg = hasInternet
             ? theme.colorScheme.primary.withValues(alpha: 0.12)
@@ -52,9 +51,13 @@ class SyncStatusChip extends StatelessWidget {
                 if (pending > 0) ...[
                   const SizedBox(width: 6),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.08),
+                      color:
+                          theme.colorScheme.onSurface.withValues(alpha: 0.08),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -63,16 +66,6 @@ class SyncStatusChip extends StatelessWidget {
                         color: theme.colorScheme.onSurface,
                         fontWeight: FontWeight.w600,
                       ),
-                    ),
-                  ),
-                ],
-                if (hasInternet && !apiOk) ...[
-                  const SizedBox(width: 6),
-                  Text(
-                    l10n.syncApiDown,
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
@@ -126,13 +119,62 @@ class SyncStatusChip extends StatelessWidget {
                   child: BlocBuilder<ApiSyncCubit, ApiSyncState>(
                     builder: (context, state) {
                       if (state.lastError == null) {
-                        return const SizedBox.shrink();
+                        return Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.surfaceContainerHigh,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _CountPill(
+                                label: l10n.pendingIncidents,
+                                count: state.pendingIncidents,
+                              ),
+                              const SizedBox(width: 8),
+                              _CountPill(
+                                label: l10n.pendingGps,
+                                count: state.pendingGps,
+                              ),
+                            ],
+                          ),
+                        );
                       }
-                      return Text(
-                        l10n.syncLastError(state.lastError!),
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.error,
-                        ),
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.surfaceContainerHigh,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                _CountPill(
+                                  label: l10n.pendingIncidents,
+                                  count: state.pendingIncidents,
+                                ),
+                                const SizedBox(width: 8),
+                                _CountPill(
+                                  label: l10n.pendingGps,
+                                  count: state.pendingGps,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            l10n.syncLastError(state.lastError!),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.error,
+                            ),
+                          ),
+                        ],
                       );
                     },
                   ),
@@ -192,5 +234,32 @@ class SyncStatusChip extends StatelessWidget {
     } catch (_) {
       return false;
     }
+  }
+}
+
+class _CountPill extends StatelessWidget {
+  final String label;
+  final int count;
+
+  const _CountPill({required this.label, required this.count});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final fg = theme.colorScheme.onSurface;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerLowest,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        '$label: $count',
+        style: theme.textTheme.labelSmall?.copyWith(
+          color: fg,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
   }
 }

@@ -6,6 +6,11 @@ import 'package:quadri_pilot/data/services/gps_api.service.dart';
 class GpsQueueService {
   static const _storageKey = 'pending_gps_queue';
 
+  Future<int> count() async {
+    final prefs = await SharedPreferences.getInstance();
+    return (prefs.getStringList(_storageKey) ?? []).length;
+  }
+
   Future<void> enqueue(GpsPayload payload) async {
     final prefs = await SharedPreferences.getInstance();
     final existing = prefs.getStringList(_storageKey) ?? [];

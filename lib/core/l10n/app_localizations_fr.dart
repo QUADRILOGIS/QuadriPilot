@@ -269,6 +269,17 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get pendingIncidents => 'Incidents';
+
+  @override
+  String get pendingGps => 'GPS';
+
+  @override
+  String syncPendingDetails(int incidents, int gps) {
+    return 'Incidents : $incidents, GPS : $gps';
+  }
+
+  @override
   String get syncApiDown => 'API indisponible';
 
   @override

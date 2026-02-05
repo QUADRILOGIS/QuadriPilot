@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quadri_pilot/core/l10n/app_localizations.dart';
 import 'package:quadri_pilot/logic/cubits/notifications.cubit.dart';
-import 'package:quadri_pilot/logic/cubits/connection.cubit.dart' as tcp;
 import 'package:quadri_pilot/logic/cubits/page.cubit.dart';
-import 'package:quadri_pilot/data/models/connection_state.model.dart' as state;
-import 'package:quadri_pilot/ui/widgets/wifi_connect_dialog.dart';
 
 import 'home.page.dart';
 import '../incident/incident_form.page.dart';
@@ -20,24 +17,11 @@ class HomeShellPage extends StatefulWidget {
 
 class _HomeShellPageState extends State<HomeShellPage> {
   int _currentIndex = 0;
-  bool _dialogShown = false;
 
   @override
   void initState() {
     super.initState();
     context.read<PageCubit>().navigateTo(AppPage.dashboard);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_dialogShown) return;
-      final connectionState = context.read<tcp.ConnectionCubit>().state;
-      if (connectionState.status != state.ConnectionStatus.connected) {
-        _dialogShown = true;
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => const WifiConnectDialog(),
-        );
-      }
-    });
   }
 
   @override
