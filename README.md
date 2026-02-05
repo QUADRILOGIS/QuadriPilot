@@ -1,202 +1,171 @@
-# QuadriPilot — Guide simple
+# 🚚 QuadriPilot
 
-Ce guide est écrit pour quelqu’un qui n’est **pas informaticien**.  
-Il explique comment **installer l’application** sur un téléphone Android et comment **la faire fonctionner**.
+<p align="center">
+  <strong>Application mobile pour les livreurs de remorques Quadrilogis</strong>
+</p>
 
----
-
-## Table des matières
-- [Équipe d'étudiants pour Quadrilogis](#équipe-détudiants-pour-quadrilogis)
-- [Ce qu’il vous faut (très simple)](#ce-quil-vous-faut-très-simple)
-- [Étape 1 — Démarrer l’API (QuadriCore)](#étape-1--démarrer-lapi-quadricore)
-- [Étape 2 — Préparer l’adresse de l’API](#étape-2--préparer-ladresse-de-lapi)
-- [Étape 3 — Installer l’application sur Android](#étape-3--installer-lapplication-sur-android)
-- [Étape 4 — Utiliser l’application](#étape-4--utiliser-lapplication)
-- [Problèmes fréquents](#problèmes-fréquents)
-- [Explication des écrans](#explication-des-écrans)
-- [Pour les développeurs](#pour-les-développeurs)
-- [Aide](#aide)
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter&logoColor=white" alt="Flutter">
+  <img src="https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart&logoColor=white" alt="Dart">
+  <img src="https://img.shields.io/badge/Android-APK-3DDC84?logo=android&logoColor=white" alt="Android">
+</p>
 
 ---
 
-## Équipe d'étudiants pour Quadrilogis
-- Baptiste BAYCHE
-- Pacôme CAILLETEAU
-- Marina CARBONE
-- Camille GOUAULT--LAMOUR
-- Nathaniel GUITTON
-- Liam LE NY
+## 👥 Équipe de développement
+
+Cette application a été réalisée par une équipe de la **promotion FIL A2 2025/2026** de l'**IMT Atlantique** :
+
+| Nom                         | Rôle                      |
+| --------------------------- | ------------------------- |
+| **Pacôme CAILLETEAU**       | Développeur Back          |
+| **Nathaniel GUITTON**       | Concepteur BDD            |
+| **Liam LE NY**              | Développeur Front Web     |
+| **Baptiste BAYCHE**         | Développeur Front Web     |
+| **Marina CARBONE**          | Designeuse                |
+| **Camille GOUAULT--LAMOUR** | Développeuse Front Mobile |
 
 ---
 
-## Ce qu’il vous faut (très simple)
-1. Un téléphone Android
-2. Un ordinateur (celui qui contient le projet)
-3. Le Wi‑Fi **du même réseau** pour le téléphone et le PC
-4. Le serveur API QuadriCore qui tourne en local sur l’ordinateur
+## 🎯 Objectif
+
+QuadriPilot est l'application mobile destinée aux livreurs pour :
+
+- se connecter à la carte électronique de la remorque
+- démarrer et arrêter une livraison
+- remonter des incidents terrain
+- consulter les alertes de maintenance
+- synchroniser les données vers l'API
 
 ---
 
-## Étape 1 — Démarrer l’API (QuadriCore)
-Sur l’ordinateur :
-1. Ouvrir le dossier **QuadriCore**
-2. Lancer l’API (demander à un développeur si besoin)
-3. Vérifier que l’API répond :
-   - Ouvrir dans le navigateur du téléphone :
-     ```
-     http://IP_DU_PC:3001/api/health
-     ```
-   - Si vous voyez une réponse, c’est bon.
+## 🧱 Stack technique
+
+- Flutter (mobile Android)
+- Dart
+- i18n (fr/en)
+- Connexion API via HTTP
+- File d'attente offline (synchronisation différée)
 
 ---
 
-## Étape 2 — Préparer l’adresse de l’API
-Dans ce projet, il y a un fichier `.env` **(non visible si vous n’êtes pas développeur)**.
+## 🔌 API QuadriCore
 
-Ce fichier doit contenir :
+QuadriPilot consomme l'API **QuadriCore** pour :
+
+- envoyer les incidents
+- envoyer la position GPS du téléphone
+- récupérer les alertes de maintenance
+
+---
+
+## 🚀 Installation (développeur)
+
+```bash
+# Installer les dépendances
+flutter pub get
 ```
+
+---
+
+## ⚙️ Configuration
+
+Créez un fichier `.env` à la racine du projet :
+
+```env
 API_BASE_URL=http://IP_DU_PC:3001/api
 ```
 
-**Important :**  
-Le téléphone et l’ordinateur doivent être sur **le même Wi‑Fi**.
+**Important :** le téléphone et le PC doivent être sur le même Wi-Fi.
 
-### Trouver l’adresse IP LAN de votre PC (très simple)
-Vous devez trouver l’adresse IP **locale** de votre ordinateur (pas l’adresse Internet).
+### Trouver l'adresse IP LAN de votre PC
 
 #### Windows
-1. Ouvrir **Invite de commandes**
-2. Taper :
-   ```
-   ipconfig
-   ```
-3. Chercher “**Adresse IPv4**”
+```bash
+ipconfig
+```
+Cherchez **Adresse IPv4**.
 
 #### macOS
-1. Ouvrir **Terminal**
-2. Taper :
-   ```
-   ipconfig getifaddr en0
-   ```
-   (ou en1 si en0 ne marche pas)
+```bash
+ipconfig getifaddr en0
+```
+(ou `en1` si besoin)
 
 #### Linux
-1. Ouvrir **Terminal**
-2. Taper :
-   ```
-   ip a
-   ```
-3. Chercher la ligne “**inet**” de votre carte Wi‑Fi
+```bash
+ip a
+```
+Cherchez la ligne `inet` de la carte Wi-Fi.
 
-### À quoi ressemble une IP LAN ?
-Exemples classiques :
+### Exemples d'IP LAN
 - `192.168.1.42`
 - `192.168.0.15`
 - `10.0.0.12`
 
-L’URL complète à mettre dans `.env`, par exemple :
+Exemple complet :
 ```
 API_BASE_URL=http://192.168.1.42:3001/api
 ```
 
 ---
 
-## Étape 3 — Installer l’application sur Android
-Un développeur doit générer un fichier APK :
+## 🏃 Lancement
 
+```bash
+# Lancer en mode développement
+flutter run
+
+# Générer les traductions
+flutter gen-l10n
+
+# Analyser le code
+flutter analyze
 ```
+
+---
+
+## 📦 APK (installation sur téléphone)
+
+```bash
+# Générer un APK debug
 flutter build apk --debug
 ```
 
-Le fichier est ici :
+Fichier généré :
 ```
 build/app/outputs/flutter-apk/app-debug.apk
 ```
 
-Ensuite, on installe l’APK sur le téléphone :
-```
+Installer sur un téléphone connecté :
+```bash
 adb install -r build/app/outputs/flutter-apk/app-debug.apk
 ```
 
 ---
 
-## Étape 4 — Utiliser l’application
-1. Ouvrir l’app **QuadriPilot**
-2. Se connecter à la carte via Wi‑Fi
-3. Aller sur l’accueil
-4. Lancer une course
-5. Remonter un incident si besoin
+## 📁 Structure
+
+```
+lib/
+  core/          # config + i18n
+  data/          # services + modèles
+  logic/         # cubits / états
+  ui/            # pages + widgets
+assets/          # images + logos
+```
 
 ---
 
-## Problèmes fréquents
+## 🌍 Internationalisation
 
-### “API_BASE_URL manquante”
-- Le fichier `.env` n’est pas rempli.
+Traductions gérées dans :
 
-### L’API ne répond pas
-- Vérifier que le téléphone et le PC sont sur le même Wi‑Fi
-- Tester dans le navigateur :
-  ```
-  http://IP_DU_PC:3001/api/health
-  ```
-
-### Les alertes ne s’affichent pas
-- Vérifier que la remorque a des alertes côté API
+- `lib/core/l10n/app_fr.arb`
+- `lib/core/l10n/app_en.arb`
 
 ---
 
-## Explication des écrans
-### Accueil
-- Bouton “Lancer la course”
-- Wi‑Fi & GPS en vert si OK, rouge sinon
-
-### Incident
-- Choix du type
-- Gravité 1–10
-- Localisation automatique
-- Bouton “Envoyer le rapport”
-
-### Alertes
-- Liste des alertes maintenance
-- Pastille rouge si non lues
-
-### Tous les écrans
-- Changement d'adresse IP pour la connexion à l'API si besoin (clic sur la pastille de connexion Internet en haut)
-
----
-
-## Pour les développeurs
-Ces commandes sont pour **continuer le développement** (à faire dans le dossier du projet).
-
-1. Installer les dépendances :
-   ```
-   flutter pub get
-   ```
-2. Générer les traductions (si besoin) :
-   ```
-   flutter gen-l10n
-   ```
-3. Lancer l’app en mode développement :
-   ```
-   flutter run
-   ```
-4. Analyser le code :
-   ```
-   flutter analyze
-   ```
-5. Générer un APK de test :
-   ```
-   flutter build apk --debug
-   ```
-
----
-
-### Aide
-La connexion et l'appairage à la carte électronique Renardo ('R-CO') reprend le travail réalisé par un groupe d'étudiants en 2025 :
-- [Jana ZEBIAN](https://github.com/JanaZebian)
-- [Jamil ACHEK](https://github.com/JamWare)
-- [Ruben SAILLY](https://github.com/rubensailly)
-- [Soufiane EZZEMANY](https://github.com/soufiane-ezzemany)
-- [Manne E. KITSOUKOU](https://github.com/h00dieB0y)
-- [Frédéric EGENSHEVILLER](https://github.com/frederic-egenscheviller)
+<p align="center">
+  <strong>QuadriPilot</strong> - IMT Atlantique - FIL A2 2025/2026
+</p>
