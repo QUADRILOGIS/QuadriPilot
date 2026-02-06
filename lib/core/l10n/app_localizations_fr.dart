@@ -12,7 +12,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get appTitle => 'QuadriPilot';
 
   @override
-  String get configureWifi => 'Configurer la Wi-Fi';
+  String get configureWifi => 'Configurer le Wi-Fi';
 
   @override
   String get availableDevices => 'Appareils disponibles';

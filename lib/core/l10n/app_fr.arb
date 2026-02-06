@@ -1,7 +1,7 @@
 {
   "@@locale": "fr",
   "appTitle": "QuadriPilot",
-  "configureWifi": "Configurer la Wi-Fi",
+  "configureWifi": "Configurer le Wi-Fi",
   "availableDevices": "Appareils disponibles",
   "accessDashboard": "Accéder à l'accueil",
   "connectToDevice": "Se connecter à la carte",
